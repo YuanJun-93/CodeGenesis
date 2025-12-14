@@ -1,0 +1,10 @@
+syntax = "v1"
+
+@server(
+	group: system
+	prefix: api
+)
+service code-genesis-api {
+	@handler Healthz
+	get /healthz returns (string)
+}

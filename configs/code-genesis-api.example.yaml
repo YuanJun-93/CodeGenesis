@@ -1,0 +1,11 @@
+Name: code-genesis-api
+Host: 0.0.0.0
+Port: 8888
+
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3306)/yu_ai_code_mother?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass: "123456"
