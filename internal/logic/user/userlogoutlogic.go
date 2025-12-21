@@ -1,32 +1,32 @@
-package system
+package user
 
 import (
 	"context"
 
 	"github.com/YuanJun-93/CodeGenesis/internal/svc"
-
 	"github.com/YuanJun-93/CodeGenesis/internal/types"
+
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type HealthzLogic struct {
+type UserLogoutLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewHealthzLogic(ctx context.Context, svcCtx *svc.ServiceContext) *HealthzLogic {
-	return &HealthzLogic{
+func NewUserLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLogoutLogic {
+	return &UserLogoutLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *HealthzLogic) Healthz() (resp *types.BaseResponseString, err error) {
-	return &types.BaseResponseString{
+func (l *UserLogoutLogic) UserLogout() (resp *types.BaseResponseBoolean, err error) {
+	return &types.BaseResponseBoolean{
 		Code: 0,
-		Msg:  "OK",
-		Data: "OK",
+		Data: true,
+		Msg:  "ok",
 	}, nil
 }

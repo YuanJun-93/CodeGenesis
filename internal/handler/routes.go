@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	system "github.com/YuanJun-93/CodeGenesis/internal/handler/system"
+	user "github.com/YuanJun-93/CodeGenesis/internal/handler/user"
 	"github.com/YuanJun-93/CodeGenesis/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -20,5 +21,73 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/register",
+				Handler: user.UserRegisterHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/login",
+				Handler: user.UserLoginHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/users"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/me",
+				Handler: user.GetLoginUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/logout",
+				Handler: user.UserLogoutHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/users"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.AdminCheck},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/",
+					Handler: user.AddUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/:id",
+					Handler: user.DeleteUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/:id",
+					Handler: user.UpdateUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/:id",
+					Handler: user.GetUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/",
+					Handler: user.ListUserByPageHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/users"),
 	)
 }

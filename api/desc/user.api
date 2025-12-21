@@ -1,0 +1,192 @@
+syntax = "v1"
+
+info(
+    title: "User Service"
+    desc: "User Management"
+)
+
+type (
+    // Models
+    User {
+        Id          int64  `json:"id"`
+        UserAccount string `json:"userAccount"`
+        UserName    string `json:"userName"`
+        UserAvatar  string `json:"userAvatar"`
+        UserProfile string `json:"userProfile"`
+        UserRole    string `json:"userRole"`
+        CreateTime  string `json:"createTime"`
+        UpdateTime  string `json:"updateTime"`
+    }
+
+    UserResponse {
+        Id          int64  `json:"id"`
+        UserAccount string `json:"userAccount"`
+        UserName    string `json:"userName"`
+        UserAvatar  string `json:"userAvatar"`
+        UserProfile string `json:"userProfile"`
+        UserRole    string `json:"userRole"`
+        CreateTime  string `json:"createTime"`
+        UpdateTime  string `json:"updateTime"`
+    }
+
+    LoginUserResponse {
+        Id          int64  `json:"id"`
+        UserAccount string `json:"userAccount"`
+        UserName    string `json:"userName"`
+        UserAvatar  string `json:"userAvatar"`
+        UserProfile string `json:"userProfile"`
+        UserRole    string `json:"userRole"`
+        CreateTime  string `json:"createTime"`
+        UpdateTime  string `json:"updateTime"`
+        Token       string `json:"token"`
+    }
+
+    // Requests
+    UserRegisterRequest {
+        UserAccount   string `json:"userAccount"`
+        UserPassword  string `json:"userPassword"`
+        CheckPassword string `json:"checkPassword"`
+    }
+
+    UserLoginRequest {
+        UserAccount  string `json:"userAccount"`
+        UserPassword string `json:"userPassword"`
+    }
+
+    UserAddRequest {
+        UserName    string `json:"userName,optional"`
+        UserAccount string `json:"userAccount"`
+        UserAvatar  string `json:"userAvatar,optional"`
+        UserProfile string `json:"userProfile,optional"`
+        UserRole    string `json:"userRole"`
+    }
+
+    // For PUT /users/:id
+    UserUpdateRequest {
+        Id          int64  `path:"id"`
+        UserName    string `json:"userName,optional"`
+        UserAvatar  string `json:"userAvatar,optional"`
+        UserProfile string `json:"userProfile,optional"`
+        UserRole    string `json:"userRole,optional"`
+    }
+
+    UserQueryRequest {
+        Current      int64  `form:"current,default=1"`
+        PageSize     int64  `form:"pageSize,default=10"`
+        SortField    string `form:"sortField,optional"`
+        SortOrder    string `form:"sortOrder,optional"`
+        Id           int64  `form:"id,optional"`
+        UnionId      string `form:"unionId,optional"`
+        MpOpenId     string `form:"mpOpenId,optional"`
+        UserName     string `form:"userName,optional"`
+        UserProfile  string `form:"userProfile,optional"`
+        UserRole     string `form:"userRole,optional"`
+    }
+
+    IdPathRequest {
+        Id int64 `path:"id"`
+    }
+
+    IdRequest {
+        Id int64 `json:"id"`
+    }
+
+    // Responses
+    BaseResponseLong {
+        Code int    `json:"code"`
+        Msg  string `json:"msg"`
+        Data int64  `json:"data"`
+    }
+
+    BaseResponseBoolean {
+        Code int    `json:"code"`
+        Msg  string `json:"msg"`
+        Data bool   `json:"data"`
+    }
+
+    BaseResponseString {
+        Code int    `json:"code"`
+        Msg  string `json:"msg"`
+        Data string `json:"data"`
+    }
+
+    BaseResponseLoginUserResponse {
+        Code int               `json:"code"`
+        Msg  string            `json:"msg"`
+        Data LoginUserResponse `json:"data"`
+    }
+
+    BaseResponseUserResponse {
+        Code int          `json:"code"`
+        Msg  string       `json:"msg"`
+        Data UserResponse `json:"data"`
+    }
+
+    BaseResponseUser {
+        Code int    `json:"code"`
+        Msg  string `json:"msg"`
+        Data User   `json:"data"`
+    }
+    
+    UserPage {
+        Records []UserResponse `json:"records"`
+        Total   int64          `json:"total"`
+    }
+    
+    BaseResponseUserPage {
+        Code int      `json:"code"`
+        Msg  string   `json:"msg"`
+        Data UserPage `json:"data"`
+    }
+)
+
+// Public -> api/users
+@server(
+    group: user
+    prefix: api/users
+)
+service code-genesis-api {
+    @handler UserRegister
+    post /register (UserRegisterRequest) returns (BaseResponseLong)
+
+    @handler UserLogin
+    post /login (UserLoginRequest) returns (BaseResponseLoginUserResponse)
+}
+
+// Authenticated -> api/users
+@server(
+    group: user
+    prefix: api/users
+    jwt: Auth
+)
+service code-genesis-api {
+    @handler GetLoginUser
+    get /me returns (BaseResponseLoginUserResponse)
+
+    @handler UserLogout
+    post /logout returns (BaseResponseBoolean)
+}
+
+// Admin -> api/users
+@server(
+    group: user
+    prefix: api/users
+    jwt: Auth
+    middleware: AdminCheck
+)
+service code-genesis-api {
+    @handler AddUser
+    post / (UserAddRequest) returns (BaseResponseLong)
+
+    @handler DeleteUser
+    delete /:id (IdPathRequest) returns (BaseResponseBoolean)
+
+    @handler UpdateUser
+    put /:id (UserUpdateRequest) returns (BaseResponseBoolean) // Using PUT for simplicity, could be PATCH
+
+    @handler GetUser
+    get /:id (IdPathRequest) returns (BaseResponseUserResponse)
+    
+    @handler ListUserByPage
+    get / (UserQueryRequest) returns (BaseResponseUserPage)
+}

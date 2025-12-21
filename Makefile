@@ -20,4 +20,16 @@ help:
 	@echo "Usage:"
 	@echo "  make run   - Start the backend server"
 	@echo "  make gen   - Generate API code from .api file"
+	@echo "  make swagger - Generate OpenAPI/Swagger spec"
+	@echo "  make test  - Run unit tests"
 	@echo "  make tidy  - Run go mod tidy"
+
+# Run unit tests
+test:
+	@echo "Running unit tests..."
+	go test -v ./...
+
+# Generate Swagger file
+swagger:
+	@echo "Generating Swagger..."
+	goctl api plugin -plugin goctl-swagger="swagger -filename swagger.json" -api api/code_genesis.api -dir api/doc

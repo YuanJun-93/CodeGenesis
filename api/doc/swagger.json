@@ -1,0 +1,797 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/healthz": {
+      "get": {
+        "operationId": "Healthz",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseString"
+            }
+          }
+        },
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/api/users/": {
+      "get": {
+        "operationId": "ListUserByPage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseUserPage"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "current",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "default": "10"
+          },
+          {
+            "name": "sortField",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "unionId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "mpOpenId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userProfile",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userRole",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "AddUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseLong"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserAddRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "operationId": "UserLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseLoginUserResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/users/logout": {
+      "post": {
+        "operationId": "UserLogout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseBoolean"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "operationId": "GetLoginUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseLoginUserResponse"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/users/register": {
+      "post": {
+        "operationId": "UserRegister",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseLong"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " Requests",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRegisterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "operationId": "GetUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseUserResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseBoolean"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdPathRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "UpdateUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResponseBoolean"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "description": " For PUT /users/:id",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "BaseResponseBoolean": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      },
+      "title": "BaseResponseBoolean",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "BaseResponseLoginUserResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/LoginUserResponse"
+        }
+      },
+      "title": "BaseResponseLoginUserResponse",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "BaseResponseLong": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "BaseResponseLong",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "BaseResponseString": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        }
+      },
+      "title": "BaseResponseString",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "BaseResponseUser": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "title": "BaseResponseUser",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "BaseResponseUserPage": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/UserPage"
+        }
+      },
+      "title": "BaseResponseUserPage",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "BaseResponseUserResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/UserResponse"
+        }
+      },
+      "title": "BaseResponseUserResponse",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "IdPathRequest": {
+      "type": "object",
+      "title": "IdPathRequest"
+    },
+    "IdRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "IdRequest",
+      "required": [
+        "id"
+      ]
+    },
+    "LoginUserResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userAccount": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "userAvatar": {
+          "type": "string"
+        },
+        "userProfile": {
+          "type": "string"
+        },
+        "userRole": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "title": "LoginUserResponse",
+      "required": [
+        "id",
+        "userAccount",
+        "userName",
+        "userAvatar",
+        "userProfile",
+        "userRole",
+        "createTime",
+        "updateTime",
+        "token"
+      ]
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userAccount": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "userAvatar": {
+          "type": "string"
+        },
+        "userProfile": {
+          "type": "string"
+        },
+        "userRole": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        }
+      },
+      "title": "User",
+      "required": [
+        "id",
+        "userAccount",
+        "userName",
+        "userAvatar",
+        "userProfile",
+        "userRole",
+        "createTime",
+        "updateTime"
+      ]
+    },
+    "UserAddRequest": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "userAccount": {
+          "type": "string"
+        },
+        "userAvatar": {
+          "type": "string"
+        },
+        "userProfile": {
+          "type": "string"
+        },
+        "userRole": {
+          "type": "string"
+        }
+      },
+      "title": "UserAddRequest",
+      "required": [
+        "userAccount",
+        "userRole"
+      ]
+    },
+    "UserLoginRequest": {
+      "type": "object",
+      "properties": {
+        "userAccount": {
+          "type": "string"
+        },
+        "userPassword": {
+          "type": "string"
+        }
+      },
+      "title": "UserLoginRequest",
+      "required": [
+        "userAccount",
+        "userPassword"
+      ]
+    },
+    "UserPage": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserResponse"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UserPage",
+      "required": [
+        "records",
+        "total"
+      ]
+    },
+    "UserQueryRequest": {
+      "type": "object",
+      "properties": {
+        "current": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "default": "10"
+        },
+        "sortField": {
+          "type": "string"
+        },
+        "sortOrder": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "unionId": {
+          "type": "string"
+        },
+        "mpOpenId": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "userProfile": {
+          "type": "string"
+        },
+        "userRole": {
+          "type": "string"
+        }
+      },
+      "title": "UserQueryRequest",
+      "required": [
+        "current",
+        "pageSize"
+      ]
+    },
+    "UserRegisterRequest": {
+      "type": "object",
+      "properties": {
+        "userAccount": {
+          "type": "string"
+        },
+        "userPassword": {
+          "type": "string"
+        },
+        "checkPassword": {
+          "type": "string"
+        }
+      },
+      "title": "UserRegisterRequest",
+      "required": [
+        "userAccount",
+        "userPassword",
+        "checkPassword"
+      ]
+    },
+    "UserResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userAccount": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "userAvatar": {
+          "type": "string"
+        },
+        "userProfile": {
+          "type": "string"
+        },
+        "userRole": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        }
+      },
+      "title": "UserResponse",
+      "required": [
+        "id",
+        "userAccount",
+        "userName",
+        "userAvatar",
+        "userProfile",
+        "userRole",
+        "createTime",
+        "updateTime"
+      ]
+    },
+    "UserUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "userAvatar": {
+          "type": "string"
+        },
+        "userProfile": {
+          "type": "string"
+        },
+        "userRole": {
+          "type": "string"
+        }
+      },
+      "title": "UserUpdateRequest"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
