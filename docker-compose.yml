@@ -1,0 +1,30 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: code-genesis-mysql
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: "code_genesis"
+      MYSQL_Tz: "Asia/Shanghai"
+    volumes:
+      - ./sql/create_table.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql-data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  redis:
+    image: redis:7.0
+    container_name: code-genesis-redis
+    ports:
+      - "16379:6379"
+    environment:
+      TZ: "Asia/Shanghai"
+    command: redis-server --requirepass "123456"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  mysql-data:
+  redis-data:

@@ -129,3 +129,12 @@ type BaseResponseUserPage struct {
 	Msg  string   `json:"msg"`
 	Data UserPage `json:"data"`
 }
+
+type GeneratorRequest struct {
+	Message string `json:"message"`
+	Type    string `json:"type"` // Content type: html, multi_file
+}
+
+type GeneratorResponse struct {
+	Result string `json:"result"`
+}

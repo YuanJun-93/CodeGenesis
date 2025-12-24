@@ -24,10 +24,15 @@ help:
 	@echo "  make test  - Run unit tests"
 	@echo "  make tidy  - Run go mod tidy"
 
-# Run unit tests
+# Run unit tests (skips integration tests)
 test:
 	@echo "Running unit tests..."
 	go test -v ./...
+
+# Run API integration tests (costs money)
+test-api:
+	@echo "Running API integration tests..."
+	go test -v -tags integration ./internal/logic/generator/...
 
 # Generate Swagger file
 swagger:

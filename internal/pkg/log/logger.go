@@ -1,10 +1,12 @@
 package log
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
 	"github.com/YuanJun-93/CodeGenesis/internal/config"
+	"github.com/zeromicro/go-zero/core/logx"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -46,4 +48,57 @@ func Init(c config.LogConf) *zap.Logger {
 	// 4. Build Logger
 	logger := zap.New(core, zap.AddCaller())
 	return logger
+}
+
+// ZapWriter implements logx.Writer interface
+type ZapWriter struct {
+	logger *zap.Logger
+}
+
+func NewZapWriter(logger *zap.Logger) *ZapWriter {
+	return &ZapWriter{logger: logger}
+}
+
+func (w *ZapWriter) Alert(v interface{}) {
+	w.logger.Error(fmt.Sprint(v))
+}
+
+func (w *ZapWriter) Close() error {
+	return w.logger.Sync()
+}
+
+func (w *ZapWriter) Debug(v interface{}, fields ...logx.LogField) {
+	w.logger.Debug(fmt.Sprint(v), toZapFields(fields)...)
+}
+
+func (w *ZapWriter) Error(v interface{}, fields ...logx.LogField) {
+	w.logger.Error(fmt.Sprint(v), toZapFields(fields)...)
+}
+
+func (w *ZapWriter) Info(v interface{}, fields ...logx.LogField) {
+	w.logger.Info(fmt.Sprint(v), toZapFields(fields)...)
+}
+
+func (w *ZapWriter) Severe(v interface{}) {
+	w.logger.Fatal(fmt.Sprint(v))
+}
+
+func (w *ZapWriter) Slow(v interface{}, fields ...logx.LogField) {
+	w.logger.Warn(fmt.Sprint(v), toZapFields(fields)...)
+}
+
+func (w *ZapWriter) Stack(v interface{}) {
+	w.logger.Error(fmt.Sprint(v), zap.Stack("stack"))
+}
+
+func (w *ZapWriter) Stat(v interface{}, fields ...logx.LogField) {
+	w.logger.Info(fmt.Sprint(v), toZapFields(fields)...) // Treat stat as info
+}
+
+func toZapFields(fields []logx.LogField) []zap.Field {
+	zapFields := make([]zap.Field, 0, len(fields))
+	for _, f := range fields {
+		zapFields = append(zapFields, zap.Any(f.Key, f.Value))
+	}
+	return zapFields
 }

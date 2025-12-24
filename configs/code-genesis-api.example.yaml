@@ -3,13 +3,22 @@ Host: 0.0.0.0
 Port: 8888
 
 Mysql:
-  DataSource: root:123456@tcp(127.0.0.1:3306)/yu_ai_code_mother?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  DataSource: root:123456@tcp(127.0.0.1:3306)/code_genesis?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 
 Redis:
   Host: 127.0.0.1:6379
   Type: node
   Pass: "123456"
 
+ZapLog:
+  Level: info
+  Encoding: json
+
 Auth:
-  AccessSecret: "123456"
+  AccessSecret: "12345678"
   AccessExpire: 86400
+
+Ai:
+  ApiKey: "your-api-key"
+  Provider: "qwen" # Options: openai, deepseek, qwen
+  # Model: "qwen-max" # Optional. Defaults: openai->gpt-5, deepseek->deepseek-chat, qwen->qwen-turbo

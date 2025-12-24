@@ -1,5 +1,6 @@
 syntax = "v1"
 import "desc/user.api"
+import "desc/generator.api"
 
 @server(
 	group: system

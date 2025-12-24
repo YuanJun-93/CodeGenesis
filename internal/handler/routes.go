@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	generator "github.com/YuanJun-93/CodeGenesis/internal/handler/generator"
 	system "github.com/YuanJun-93/CodeGenesis/internal/handler/system"
 	user "github.com/YuanJun-93/CodeGenesis/internal/handler/user"
 	"github.com/YuanJun-93/CodeGenesis/internal/svc"
@@ -89,5 +90,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/users"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/use",
+				Handler: generator.UseGeneratorHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/stream",
+				Handler: generator.StreamGeneratorHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/generator"),
 	)
 }

@@ -1,0 +1,23 @@
+type (
+    GeneratorRequest {
+        Message string `json:"message"`
+        Type    string `json:"type"` // Content type: html, multi_file
+    }
+
+    GeneratorResponse {
+        Result string `json:"result"`
+    }
+)
+
+@server(
+    group: generator
+    prefix: api/generator
+    jwt: Auth
+)
+service code-genesis-api {
+    @handler UseGenerator
+    post /use (GeneratorRequest) returns (GeneratorResponse)
+
+    @handler StreamGenerator
+    post /stream (GeneratorRequest)
+}

@@ -16,7 +16,13 @@ type Config struct {
 		AccessSecret string
 		AccessExpire int64
 	}
-	Log LogConf
+	Ai struct {
+		ApiKey   string
+		Provider string `json:",optional"`
+		BaseUrl  string `json:",optional"`
+		Model    string `json:",optional"`
+	}
+	ZapLog LogConf
 }
 
 type LogConf struct {

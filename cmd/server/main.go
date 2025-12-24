@@ -6,9 +6,11 @@ import (
 
 	"github.com/YuanJun-93/CodeGenesis/internal/config"
 	"github.com/YuanJun-93/CodeGenesis/internal/handler"
+	"github.com/YuanJun-93/CodeGenesis/internal/pkg/log"
 	"github.com/YuanJun-93/CodeGenesis/internal/svc"
 
-	"github.com/spf13/viper"
+	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
 )
 
@@ -18,15 +20,12 @@ func main() {
 	flag.Parse()
 
 	var c config.Config
-	// Viper Configuration
-	v := viper.New()
-	v.SetConfigFile(*configFile)
-	if err := v.ReadInConfig(); err != nil {
-		panic(fmt.Errorf("fatal error config file: %w", err))
-	}
-	if err := v.Unmarshal(&c); err != nil {
-		panic(fmt.Errorf("unable to decode into struct: %w", err))
-	}
+	conf.MustLoad(*configFile, &c)
+
+	// Init Zap Logger
+	zapLogger := log.Init(c.ZapLog)
+	// Replace go-zero logx writer with Zap
+	logx.SetWriter(log.NewZapWriter(zapLogger))
 
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()

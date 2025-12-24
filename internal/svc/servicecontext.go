@@ -39,7 +39,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	// Init Logger
-	logger := logInit.Init(c.Log)
+	logger := logInit.Init(c.ZapLog)
 
 	// Init Validator
 	val, trans := valInit.Init()
