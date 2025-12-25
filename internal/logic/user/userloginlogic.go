@@ -55,7 +55,7 @@ func (l *UserLoginLogic) UserLogin(req *types.UserLoginRequest) (resp *types.Bas
 	now := time.Now().Unix()
 	accessSecret := l.svcCtx.Config.Auth.AccessSecret
 	accessExpire := l.svcCtx.Config.Auth.AccessExpire
-	token, err := l.getJwtToken(accessSecret, now, accessExpire, user.Id)
+	token, err := l.getJwtToken(accessSecret, now, accessExpire, user.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -64,11 +64,11 @@ func (l *UserLoginLogic) UserLogin(req *types.UserLoginRequest) (resp *types.Bas
 		Code: 0,
 		Msg:  "Login Success",
 		Data: types.LoginUserResponse{
-			Id:          user.Id,
+			Id:          user.ID,
 			UserAccount: user.UserAccount,
-			UserName:    user.UserName.String,
-			UserAvatar:  user.UserAvatar.String,
-			UserProfile: user.UserProfile.String,
+			UserName:    user.UserName,
+			UserAvatar:  user.UserAvatar,
+			UserProfile: user.UserProfile,
 			UserRole:    user.UserRole,
 			CreateTime:  user.CreateTime.Format("2006-01-02 15:04:05"),
 			UpdateTime:  user.UpdateTime.Format("2006-01-02 15:04:05"),

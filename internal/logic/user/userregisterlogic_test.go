@@ -32,7 +32,7 @@ func TestUserRegisterLogic_UserRegister(t *testing.T) {
 			setup: func(m *mocks.MockUserModel) {
 				m.EXPECT().FindOneByUserAccount(gomock.Any(), "testuser").Return(nil, model.ErrNotFound)
 				m.EXPECT().Insert(gomock.Any(), gomock.Any()).Do(func(ctx context.Context, u *model.User) {
-					u.Id = 1
+					u.ID = 1
 				}).Return(nil)
 			},
 			wantErr: false,
@@ -45,7 +45,7 @@ func TestUserRegisterLogic_UserRegister(t *testing.T) {
 				CheckPassword: "password123",
 			},
 			setup: func(m *mocks.MockUserModel) {
-				m.EXPECT().FindOneByUserAccount(gomock.Any(), "existing").Return(&model.User{Id: 1, UserAccount: "existing"}, nil)
+				m.EXPECT().FindOneByUserAccount(gomock.Any(), "existing").Return(&model.User{ID: 1, UserAccount: "existing"}, nil)
 			},
 			wantErr: true,
 		},

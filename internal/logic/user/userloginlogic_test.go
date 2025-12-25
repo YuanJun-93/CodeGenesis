@@ -35,7 +35,7 @@ func TestUserLoginLogic_UserLogin(t *testing.T) {
 			setup: func(m *mocks.MockUserModel) {
 				encrypted := fmt.Sprintf("%x", md5.Sum([]byte(salt+"password123")))
 				m.EXPECT().FindOneByUserAccount(gomock.Any(), "testuser").Return(&model.User{
-					Id:           1,
+					ID:           1,
 					UserAccount:  "testuser",
 					UserPassword: encrypted,
 					UserRole:     "user",
@@ -63,7 +63,7 @@ func TestUserLoginLogic_UserLogin(t *testing.T) {
 			setup: func(m *mocks.MockUserModel) {
 				encrypted := fmt.Sprintf("%x", md5.Sum([]byte(salt+"password123")))
 				m.EXPECT().FindOneByUserAccount(gomock.Any(), "testuser").Return(&model.User{
-					Id:           1,
+					ID:           1,
 					UserAccount:  "testuser",
 					UserPassword: encrypted,
 				}, nil)

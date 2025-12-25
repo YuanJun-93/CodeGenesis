@@ -27,7 +27,7 @@ func main() {
 	// Replace go-zero logx writer with Zap
 	logx.SetWriter(log.NewZapWriter(zapLogger))
 
-	server := rest.MustNewServer(c.RestConf)
+	server := rest.MustNewServer(c.RestConf, rest.WithCors("http://localhost:5173"))
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)

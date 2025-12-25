@@ -31,13 +31,13 @@ func (l *GetUserLogic) GetUser(req *types.IdPathRequest) (resp *types.BaseRespon
 
 	return &types.BaseResponseUserResponse{
 		Code: 0,
-		Msg:  "ok",
+		Msg:  "success",
 		Data: types.UserResponse{
-			Id:          user.Id,
+			Id:          user.ID,
 			UserAccount: user.UserAccount,
-			UserName:    user.UserName.String,
-			UserAvatar:  user.UserAvatar.String,
-			UserProfile: user.UserProfile.String,
+			UserName:    user.UserName,
+			UserAvatar:  user.UserAvatar,
+			UserProfile: user.UserProfile,
 			UserRole:    user.UserRole,
 			CreateTime:  user.CreateTime.Format("2006-01-02 15:04:05"),
 			UpdateTime:  user.UpdateTime.Format("2006-01-02 15:04:05"),

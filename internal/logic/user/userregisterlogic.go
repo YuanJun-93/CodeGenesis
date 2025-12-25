@@ -3,7 +3,6 @@ package user
 import (
 	"context"
 	"crypto/md5"
-	"database/sql"
 	"errors"
 	"fmt"
 
@@ -65,7 +64,7 @@ func (l *UserRegisterLogic) UserRegister(req *types.UserRegisterRequest) (resp *
 	newUser := &model.User{
 		UserAccount:  req.UserAccount,
 		UserPassword: encryptedPassword,
-		UserName:     sql.NullString{String: "User" + req.UserAccount, Valid: true},
+		UserName:     "User" + req.UserAccount,
 		UserRole:     "user",
 	}
 
@@ -74,7 +73,7 @@ func (l *UserRegisterLogic) UserRegister(req *types.UserRegisterRequest) (resp *
 		return nil, err
 	}
 
-	userId := newUser.Id
+	userId := newUser.ID
 
 	return &types.BaseResponseLong{
 		Code: 0,

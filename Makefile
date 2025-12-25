@@ -5,11 +5,6 @@ run:
 	@echo "Starting server..."
 	go run cmd/server/main.go -f configs/code-genesis-api.yaml
 
-# Generate API code
-gen:
-	@echo "Generating API code..."
-	goctl api go -api api/code_genesis.api -dir . -style gozero
-	go mod tidy
 
 # Run go mod tidy
 tidy:
@@ -32,7 +27,10 @@ test:
 # Run API integration tests (costs money)
 test-api:
 	@echo "Running API integration tests..."
-	go test -v -tags integration ./internal/logic/generator/...
+	go test -tags=integration ./...
+
+gen:
+	go run cmd/gentool/main.go
 
 # Generate Swagger file
 swagger:

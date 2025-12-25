@@ -6,58 +6,55 @@ import (
 	"gorm.io/gorm"
 )
 
-type (
-	// UserModel is an interface to be customized, add more methods here,
-	// and implement the added methods in customUserModel.
-	customUserModel struct {
-		db *gorm.DB
-	}
-)
+// ErrNotFound is a standard error for record not found
+var ErrNotFound = gorm.ErrRecordNotFound
 
-// NewUserModel returns a model for the database table.
+// UserModel defines the interface for user operations
+type UserModel interface {
+	Insert(ctx context.Context, data *User) error
+	FindOne(ctx context.Context, id int64) (*User, error)
+	FindOneByUserAccount(ctx context.Context, userAccount string) (*User, error)
+	Update(ctx context.Context, data *User) error
+	Delete(ctx context.Context, id int64) error
+}
+
+type defaultUserModel struct {
+	db *gorm.DB
+}
+
+// NewUserModel creates a new UserModel backed by GORM
 func NewUserModel(db *gorm.DB) UserModel {
-	return &customUserModel{
+	return &defaultUserModel{
 		db: db,
 	}
 }
 
-func (m *customUserModel) Insert(ctx context.Context, data *User) error {
+func (m *defaultUserModel) Insert(ctx context.Context, data *User) error {
 	return m.db.WithContext(ctx).Create(data).Error
 }
 
-func (m *customUserModel) FindOne(ctx context.Context, id int64) (*User, error) {
+func (m *defaultUserModel) FindOne(ctx context.Context, id int64) (*User, error) {
 	var user User
-	err := m.db.WithContext(ctx).Where("id = ?", id).First(&user).Error
+	err := m.db.WithContext(ctx).Where(&User{ID: id}).First(&user).Error
 	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil, ErrNotFound
-		}
 		return nil, err
 	}
 	return &user, nil
 }
 
-func (m *customUserModel) FindOneByUserAccount(ctx context.Context, userAccount string) (*User, error) {
+func (m *defaultUserModel) FindOneByUserAccount(ctx context.Context, userAccount string) (*User, error) {
 	var user User
-	err := m.db.WithContext(ctx).Where("userAccount = ?", userAccount).First(&user).Error
+	err := m.db.WithContext(ctx).Where(&User{UserAccount: userAccount}).First(&user).Error
 	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil, ErrNotFound
-		}
 		return nil, err
 	}
 	return &user, nil
 }
 
-func (m *customUserModel) Update(ctx context.Context, data *User) error {
+func (m *defaultUserModel) Update(ctx context.Context, data *User) error {
 	return m.db.WithContext(ctx).Save(data).Error
 }
 
-func (m *customUserModel) Delete(ctx context.Context, id int64) error {
+func (m *defaultUserModel) Delete(ctx context.Context, id int64) error {
 	return m.db.WithContext(ctx).Delete(&User{}, id).Error
-}
-
-// TableName matches the sqlx table definition
-func (User) TableName() string {
-	return "user"
 }
