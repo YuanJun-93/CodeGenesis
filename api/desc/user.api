@@ -146,9 +146,15 @@ type (
     prefix: api/users
 )
 service code-genesis-api {
+    @doc(
+        summary: "User Register"
+    )
     @handler UserRegister
     post /register (UserRegisterRequest) returns (BaseResponseLong)
 
+    @doc(
+        summary: "User Login"
+    )
     @handler UserLogin
     post /login (UserLoginRequest) returns (BaseResponseLoginUserResponse)
 }
@@ -160,9 +166,15 @@ service code-genesis-api {
     jwt: Auth
 )
 service code-genesis-api {
+    @doc(
+        summary: "Get Current Logged In User"
+    )
     @handler GetLoginUser
     get /me returns (BaseResponseLoginUserResponse)
 
+    @doc(
+        summary: "User Logout"
+    )
     @handler UserLogout
     post /logout returns (BaseResponseBoolean)
 }
@@ -175,18 +187,33 @@ service code-genesis-api {
     middleware: AdminCheck
 )
 service code-genesis-api {
+    @doc(
+        summary: "Add User (Admin)"
+    )
     @handler AddUser
     post / (UserAddRequest) returns (BaseResponseLong)
 
+    @doc(
+        summary: "Delete User (Admin)"
+    )
     @handler DeleteUser
     delete /:id (IdPathRequest) returns (BaseResponseBoolean)
 
+    @doc(
+        summary: "Update User (Admin)"
+    )
     @handler UpdateUser
     put /:id (UserUpdateRequest) returns (BaseResponseBoolean) // Using PUT for simplicity, could be PATCH
 
+    @doc(
+        summary: "Get User By ID (Admin)"
+    )
     @handler GetUser
     get /:id (IdPathRequest) returns (BaseResponseUserResponse)
     
+    @doc(
+        summary: "List Users By Page (Admin)"
+    )
     @handler ListUserByPage
     get / (UserQueryRequest) returns (BaseResponseUserPage)
 }

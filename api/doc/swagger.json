@@ -17,6 +17,7 @@
   "paths": {
     "/api/generator/stream": {
       "post": {
+        "summary": "Stream Generate Code",
         "operationId": "StreamGenerator",
         "responses": {
           "200": {
@@ -46,6 +47,7 @@
     },
     "/api/generator/use": {
       "post": {
+        "summary": "Generate Code with AI",
         "operationId": "UseGenerator",
         "responses": {
           "200": {
@@ -93,6 +95,7 @@
     },
     "/api/users/": {
       "get": {
+        "summary": "List Users By Page (Admin)",
         "operationId": "ListUserByPage",
         "responses": {
           "200": {
@@ -182,6 +185,7 @@
         ]
       },
       "post": {
+        "summary": "Add User (Admin)",
         "operationId": "AddUser",
         "responses": {
           "200": {
@@ -213,6 +217,7 @@
     },
     "/api/users/login": {
       "post": {
+        "summary": "User Login",
         "operationId": "UserLogin",
         "responses": {
           "200": {
@@ -239,6 +244,7 @@
     },
     "/api/users/logout": {
       "post": {
+        "summary": "User Logout",
         "operationId": "UserLogout",
         "responses": {
           "200": {
@@ -260,6 +266,7 @@
     },
     "/api/users/me": {
       "get": {
+        "summary": "Get Current Logged In User",
         "operationId": "GetLoginUser",
         "responses": {
           "200": {
@@ -281,6 +288,7 @@
     },
     "/api/users/register": {
       "post": {
+        "summary": "User Register",
         "operationId": "UserRegister",
         "responses": {
           "200": {
@@ -308,6 +316,7 @@
     },
     "/api/users/{id}": {
       "get": {
+        "summary": "Get User By ID (Admin)",
         "operationId": "GetUser",
         "responses": {
           "200": {
@@ -335,6 +344,7 @@
         ]
       },
       "delete": {
+        "summary": "Delete User (Admin)",
         "operationId": "DeleteUser",
         "responses": {
           "200": {
@@ -370,6 +380,7 @@
         ]
       },
       "put": {
+        "summary": "Update User (Admin)",
         "operationId": "UpdateUser",
         "responses": {
           "200": {

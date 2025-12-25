@@ -15,9 +15,15 @@ type (
     jwt: Auth
 )
 service code-genesis-api {
+    @doc(
+        summary: "Generate Code with AI"
+    )
     @handler UseGenerator
     post /use (GeneratorRequest) returns (GeneratorResponse)
 
+    @doc(
+        summary: "Stream Generate Code"
+    )
     @handler StreamGenerator
     post /stream (GeneratorRequest)
 }

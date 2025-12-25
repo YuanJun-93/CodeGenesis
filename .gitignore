@@ -31,7 +31,6 @@ generated/
 internal/logic/generator/generated/
 
 # Frontend
-frontend
 frontend/node_modules
 frontend/dist
 frontend/.DS_Store
