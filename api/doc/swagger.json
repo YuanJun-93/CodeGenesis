@@ -15,6 +15,66 @@
     "application/json"
   ],
   "paths": {
+    "/api/generator/stream": {
+      "post": {
+        "operationId": "StreamGenerator",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GeneratorRequest"
+            }
+          }
+        ],
+        "tags": [
+          "generator"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/generator/use": {
+      "post": {
+        "operationId": "UseGenerator",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GeneratorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GeneratorRequest"
+            }
+          }
+        ],
+        "tags": [
+          "generator"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/api/healthz": {
       "get": {
         "operationId": "Healthz",
@@ -495,6 +555,35 @@
         "code",
         "msg",
         "data"
+      ]
+    },
+    "GeneratorRequest": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "description": " Content type: html, multi_file"
+        }
+      },
+      "title": "GeneratorRequest",
+      "required": [
+        "message",
+        "type"
+      ]
+    },
+    "GeneratorResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      },
+      "title": "GeneratorResponse",
+      "required": [
+        "result"
       ]
     },
     "IdPathRequest": {

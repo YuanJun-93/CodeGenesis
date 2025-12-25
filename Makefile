@@ -35,4 +35,4 @@ gen:
 # Generate Swagger file
 swagger:
 	@echo "Generating Swagger..."
-	goctl api plugin -plugin goctl-swagger="swagger -filename swagger.json" -api api/code_genesis.api -dir api/doc
+	export PATH=$$PATH:$$(go env GOPATH)/bin && $$(go env GOPATH)/bin/goctl api plugin -plugin goctl-swagger="swagger -filename swagger.json" -api api/code_genesis.api -dir api/doc
