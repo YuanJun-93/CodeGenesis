@@ -22,7 +22,8 @@ type Config struct {
 		BaseUrl  string `json:",optional"`
 		Model    string `json:",optional"`
 	}
-	ZapLog LogConf
+	ZapLog    LogConf
+	MachineId int64 `json:",default=1"`
 }
 
 type LogConf struct {

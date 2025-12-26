@@ -3,6 +3,7 @@ module github.com/YuanJun-93/CodeGenesis
 go 1.20
 
 require (
+	github.com/bwmarrin/snowflake v0.3.0
 	github.com/go-playground/locales v0.14.1
 	github.com/go-playground/universal-translator v0.18.1
 	github.com/go-playground/validator/v10 v10.16.0
